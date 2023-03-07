@@ -10,5 +10,43 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(tidyverse)
+library(plotly)
+
+paises <- c("Spain", "Italy", "France", "United States", "Germany", "Canada", "Japan", "India")
+
+t <- "./data/owid-covid-data.csv"
+datacovid <- read.csv(t)
+head(datacovid)
+
+datacovid <- as.data.frame(datacovid)
+datacovid$date <- as.Date(datacovid$date, format = "%Y-%m-%d")
+
+covid <- subset(datacovid, location %in% paises)
+
+# Vector de colores
+colores <- c("Spain" = "black", "Italy" = "red", "France" = "blue", "United States" = "green", "Germany" = "purple", "Canada" = "orange", "Japan" = "grey", "India" = "brown")
+
+tamano <- c("Spain" = 1.5, "Italy" = 0.7, "France" = 0.7, "United States" = 0.7, "Germany" = 0.7, "Canada" = 0.7, "Japan" = 0.7, "India" = 0.7)
+
+
+
+gr1 <- ggplot(covid, aes(x = date, y = new_deaths_smoothed_per_million, col= location)) +
+  geom_line(aes(size = location)) + 
+  scale_size_manual(values = tamano) +
+  scale_color_manual(values = colores) +
+  labs(title = "Número de muertes diarias por millón de habitantes",
+       subtitle = "Datos de COVID-19 hasta la fecha actual",
+       x = "Fecha",
+       y = "Muertes diarias por millón de habitantes",
+       col = "País",
+       size = "País") +
+  theme(legend.key = element_rect(fill = "white"),
+        legend.text = element_text(size = 10),
+        legend.title = element_text(size = 12, face = "bold"),
+        legend.margin = margin(5, 5, 5, 5)) +
+  guides(col = guide_legend(override.aes = list(size = 1.5))) + 
+  scale_x_date(date_labels = "%b %d, %Y")
+gr1
 
 ```
