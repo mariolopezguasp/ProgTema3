@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(plotly)
+library(htmlwidgets)
+
 
 paises <- c("Spain", "Italy", "France", "United States", "Germany", "Canada", "Japan", "India")
 
@@ -52,5 +54,8 @@ gr1_interactivo <- ggplotly(gr1)
 
 # Mostrar el gráfico interactivo
 gr1_interactivo
+
+# Guardar la gráfica en un archivo HTML
+saveWidget(gr1_interactivo, file = "graficacovid.html")
 
 ```
