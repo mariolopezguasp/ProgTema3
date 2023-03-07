@@ -17,7 +17,6 @@ paises <- c("Spain", "Italy", "France", "United States", "Germany", "Canada", "J
 
 t <- "./data/owid-covid-data.csv"
 datacovid <- read.csv(t)
-head(datacovid)
 
 datacovid <- as.data.frame(datacovid)
 datacovid$date <- as.Date(datacovid$date, format = "%Y-%m-%d")
@@ -47,6 +46,11 @@ gr1 <- ggplot(covid, aes(x = date, y = new_deaths_smoothed_per_million, col= loc
         legend.margin = margin(5, 5, 5, 5)) +
   guides(col = guide_legend(override.aes = list(size = 1.5))) + 
   scale_x_date(date_labels = "%b %d, %Y")
-gr1
+
+
+gr1_interactivo <- ggplotly(gr1)
+
+# Mostrar el gráfico interactivo
+gr1_interactivo
 
 ```
